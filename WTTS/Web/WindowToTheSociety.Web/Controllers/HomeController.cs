@@ -2,9 +2,9 @@
 {
     using System.Diagnostics;
 
-    using WindowToTheSociety.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+
+    using WindowToTheSociety.Web.ViewModels;
 
     public class HomeController : BaseController
     {
