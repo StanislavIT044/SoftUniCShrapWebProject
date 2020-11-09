@@ -1,9 +1,25 @@
 ﻿namespace WindowToTheSociety.Web.ViewModels.Identity
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
+
+    using WindowToTheSociety.Data.Models;
 
     public class RegisterInputModel
     {
+        [Required]
+        [StringLength(25, ErrorMessage = "First Name must be between 2 and 25 characters long.", MinimumLength = 2)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(25, ErrorMessage = "Surname must be between 2 and 25 characters long.", MinimumLength = 2)]
+        public string Surname { get; set; }
+
+        public Gender Gender { get; set; }
+
+        [Required]
+        public DateTime BirthDate { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

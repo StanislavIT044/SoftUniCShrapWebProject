@@ -3,6 +3,7 @@ namespace WindowToTheSociety.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Identity;
 
@@ -17,6 +18,20 @@ namespace WindowToTheSociety.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
+
+        // Personal info
+        [Required]
+        [MaxLength(25)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(30)]
+        public string Surname { get; set; }
+
+        public Gender Gender { get; set; }
+
+        [Required]
+        public DateTime BirthDate { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

@@ -52,12 +52,26 @@
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            //if (this.User.Identity.IsAuthenticated)
+            //{
+            //    return this.Redirect("/Identity/Account/Register");
+            //}
+
             returnUrl = returnUrl ?? this.Url.Content("~/");
             this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (this.ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
+                ApplicationUser user = new ApplicationUser
+                {
+                    FirstName = this.Input.FirstName,
+                    Surname = this.Input.Surname,
+                    BirthDate = this.Input.BirthDate,
+                    UserName = this.Input.Email,
+                    Email = this.Input.Email,
+                    Gender = this.Input.Gender,
+                };
+
                 var result = await this._userManager.CreateAsync(user, this.Input.Password);
 
                 if (result.Succeeded)
