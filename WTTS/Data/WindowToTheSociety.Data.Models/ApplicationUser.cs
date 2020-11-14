@@ -4,7 +4,7 @@ namespace WindowToTheSociety.Data.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using Microsoft.AspNetCore.Identity;
 
     using WindowToTheSociety.Data.Common.Models;
@@ -17,6 +17,7 @@ namespace WindowToTheSociety.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.Photos = new HashSet<Photo>();
         }
 
         // Personal info
@@ -48,5 +49,18 @@ namespace WindowToTheSociety.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        // Pictures
+        [ForeignKey("ProfilePicture")]
+        public string ProfilePictureId { get; set; }
+
+        public ProfilePicture ProfilePicture { get; set; }
+
+        [ForeignKey("CoverPhoto")]
+        public string CoverPhotoId { get; set; }
+
+        public CoverPhoto CoverPhoto { get; set; }
+
+        public virtual ICollection<Photo> Photos { get; set; }
     }
 }

@@ -24,11 +24,13 @@
         {
         }
 
-        //TODO: Implement DbSets
-
         public DbSet<ApplicationUser> Users { get; set; }
 
-        public DbSet<Setting> Settings { get; set; }
+        public DbSet<ProfilePicture> ProfilePictures { get; set; }
+
+        public DbSet<CoverPhoto> CoverPhotos { get; set; }
+
+        public DbSet<Photo> Photos { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
