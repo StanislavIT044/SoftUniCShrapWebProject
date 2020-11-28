@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\WindowToTheSociety.Data.Common\WindowToTheSociety.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\WindowToTheSociety.Data.Models\WindowToTheSociety.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\WindowToTheSociety.Web.ViewModels\WindowToTheSociety.Web.ViewModels.csproj" />
     <ProjectReference Include="..\WindowToTheSociety.Services.Mapping\WindowToTheSociety.Services.Mapping.csproj" />
   </ItemGroup>
 
