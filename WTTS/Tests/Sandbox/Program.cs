@@ -5,21 +5,18 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using WindowToTheSociety.Data;
     using WindowToTheSociety.Data.Common;
     using WindowToTheSociety.Data.Common.Repositories;
     using WindowToTheSociety.Data.Models;
     using WindowToTheSociety.Data.Repositories;
     using WindowToTheSociety.Data.Seeding;
-    using WindowToTheSociety.Services.Data;
     using WindowToTheSociety.Services.Messaging;
-
-    using CommandLine;
-
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
 
     public static class Program
     {
@@ -52,8 +49,7 @@
         {
             var sw = Stopwatch.StartNew();
 
-            var settingsService = serviceProvider.GetService<ISettingsService>();
-            Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
+            //Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
 
             Console.WriteLine(sw.Elapsed);
             return await Task.FromResult(0);
@@ -81,7 +77,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
     }
 }

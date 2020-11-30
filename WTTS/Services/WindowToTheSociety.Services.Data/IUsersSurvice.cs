@@ -1,9 +1,9 @@
 ﻿namespace WindowToTheSociety.Services.Data
 {
-    using WindowToTheSociety.Web.ViewModels;
+    using WindowToTheSociety.Web.ViewModels.Users;
 
     public interface IUsersSurvice
     {
-        ProfileViewModel FindUserById(string userId);
+        UsersProfileViewModel GetById(string userId);
     }
 }
