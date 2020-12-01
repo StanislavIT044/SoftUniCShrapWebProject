@@ -1,5 +1,27 @@
-﻿@model WindowToTheSociety.Web.ViewModels.Users.UsersProfileViewModel
+﻿@model WindowToTheSociety.Web.ViewModels.Users.AddPictureInputModel
 @{
-    this.ViewData["Title"] = Model;
+    this.ViewData["Title"] = "Add Picture";
 }
 
+<div class="col-md-6 col-md-offset-12 container">
+    <form method="post" class="form-group col-md-12" enctype="multipart/form-data">
+        <div class="form-group col-md-12">
+            <label asp-for="Type"></label>
+            <select asp-for="Type" class="form-control">
+                <option value="ProfilePicture">Profile Picture</option>
+                <option value="CoverPhoto">Cover Photo</option>
+</select>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label asp-for="Picture"></label>
+            <input asp-for="Picture" class="form-control" />
+            <span asp-validation-for="Picture" class="text-danger"></span>
+        </div>
+
+
+        <div class="col-md-12 text-center">
+            <input type="submit" class="btn btn-primary" />
+        </div>
+    </form>
+</div>

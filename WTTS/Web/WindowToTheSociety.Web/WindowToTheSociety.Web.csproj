@@ -42,4 +42,9 @@
     <ProjectReference Include="..\WindowToTheSociety.Web.Infrastructure\WindowToTheSociety.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\WindowToTheSociety.Web.ViewModels\WindowToTheSociety.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\CoverPhotos\" />
+    <Folder Include="wwwroot\ProfilePictures\" />
+  </ItemGroup>
 </Project>
