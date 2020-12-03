@@ -34,7 +34,7 @@
             }
 
             string userId = this.userManager.GetUserId(this.User);
-            UsersProfileViewModel viewModel = this.usersSurvice.GetById(userId);
+            UsersProfileViewModel viewModel = this.usersSurvice.GetProfileViewModelById(userId);
 
             return this.View(viewModel);
         }
@@ -68,14 +68,15 @@
             }
 
             string userId = this.userManager.GetUserId(this.User);
-            string filePath = this.webHostEnvironment.WebRootPath + $"\\{input.Type}s" + $"\\{userId}.jpg";
+            string fileFolderAndName = $"/{input.Type}s" + $"/{userId}.jpg";
+            string filePath = this.webHostEnvironment.WebRootPath + fileFolderAndName;
 
             using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
                 await input.Picture.CopyToAsync(stream);
             }
 
-            await this.picturesService.CreateProfilePicture(input, filePath, userId);
+            await this.picturesService.CreateProfilePicture(input, fileFolderAndName, userId);
 
             return this.Redirect("Profile");
         }

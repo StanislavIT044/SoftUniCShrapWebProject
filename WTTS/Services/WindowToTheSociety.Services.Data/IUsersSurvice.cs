@@ -8,7 +8,7 @@
 
     public interface IUsersSurvice
     {
-        UsersProfileViewModel GetById(string userId);
+        UsersProfileViewModel GetProfileViewModelById(string userId);
 
         Task AppendProfilePicture(string pictureId, string userId);
     }

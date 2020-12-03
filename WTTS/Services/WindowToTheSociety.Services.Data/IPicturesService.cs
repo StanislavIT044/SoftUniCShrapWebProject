@@ -2,6 +2,8 @@
 {
     using System.Threading.Tasks;
 
+    using WindowToTheSociety.Data.Models;
+
     using WindowToTheSociety.Web.ViewModels.Users;
 
     public interface IPicturesService

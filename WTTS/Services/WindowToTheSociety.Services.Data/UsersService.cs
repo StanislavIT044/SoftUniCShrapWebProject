@@ -17,7 +17,7 @@
             this.usersRepository = users;
         }
 
-        public UsersProfileViewModel GetById(string userId)
+        public UsersProfileViewModel GetProfileViewModelById(string userId)
         {
             UsersProfileViewModel viewModel = this.usersRepository
                 .AllAsNoTracking()
