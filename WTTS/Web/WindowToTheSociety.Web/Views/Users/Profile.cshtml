@@ -3,4 +3,8 @@
     this.ViewData["Title"] = "Profile";
 }
 
-<p>@Model.FirstName</p>
+<div class="media col-md-4">
+    <img src="@Model.ProfilePictureUrl" width="100" class="mr-3 img-responsive">
+
+    <p>@Model.FirstName</p>
+</div>

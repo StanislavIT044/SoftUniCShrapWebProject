@@ -14,7 +14,7 @@
 
         public DateTime BirthDate { get; set; }
 
-        //ProfilePicture ProfilePicture { get; set; }
+        public string ProfilePictureUrl { get; set; }
 
         //public CoverPhoto CoverPhoto { get; set; }
 

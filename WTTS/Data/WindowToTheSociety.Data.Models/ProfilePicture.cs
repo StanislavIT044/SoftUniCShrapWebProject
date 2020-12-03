@@ -3,7 +3,9 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class ProfilePicture
+    using WindowToTheSociety.Data.Common.Models;
+
+    public class ProfilePicture : BaseModel<string>
     {
         public ProfilePicture()
         {

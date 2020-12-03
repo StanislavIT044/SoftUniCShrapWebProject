@@ -1,8 +1,10 @@
 ﻿namespace WindowToTheSociety.Services.Data
 {
     using System.Linq;
+    using System.Threading.Tasks;
 
     using WindowToTheSociety.Data.Common.Repositories;
+
     using WindowToTheSociety.Data.Models;
     using WindowToTheSociety.Web.ViewModels.Users;
 
@@ -26,10 +28,26 @@
                     Surname = x.Surname,
                     BirthDate = x.BirthDate,
                     Gender = x.Gender,
+                    ProfilePictureUrl = x.ProfilePicture.PictureUrl,
                 })
                 .FirstOrDefault();
 
             return viewModel;
+        }
+
+        public async Task AppendProfilePicture(string pictureId, string userId)
+        {
+            ApplicationUser user = this.GetUserById(userId);
+
+            user.ProfilePictureId = pictureId;
+            await this.usersRepository.SaveChangesAsync();
+        }
+
+        public ApplicationUser GetUserById(string userId)
+        {
+            ApplicationUser user = this.usersRepository.All().First(x => x.Id == userId);
+
+            return user;
         }
     }
 }

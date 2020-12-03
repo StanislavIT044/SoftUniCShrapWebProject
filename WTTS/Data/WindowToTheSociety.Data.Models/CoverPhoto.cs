@@ -3,7 +3,9 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class CoverPhoto
+    using WindowToTheSociety.Data.Common.Models;
+
+    public class CoverPhoto : BaseModel<string>
     {
         public CoverPhoto()
         {

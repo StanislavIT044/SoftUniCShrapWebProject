@@ -14,14 +14,16 @@
     public class UsersController : Controller
     {
         private readonly IUsersSurvice usersSurvice;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IPicturesService picturesService;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public UsersController(IUsersSurvice usersSurvice, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
+        public UsersController(IUsersSurvice usersSurvice, IPicturesService picturesService, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             this.usersSurvice = usersSurvice;
             this.userManager = userManager;
             this.webHostEnvironment = webHostEnvironment;
+            this.picturesService = picturesService;
         }
 
         public IActionResult Profile()
@@ -65,12 +67,15 @@
                 return this.View();
             }
 
-            string filePath = this.webHostEnvironment.WebRootPath + $"/{input.Type}s" + $"/{this.userManager.GetUserId(this.User)}.jpg";
+            string userId = this.userManager.GetUserId(this.User);
+            string filePath = this.webHostEnvironment.WebRootPath + $"\\{input.Type}s" + $"\\{userId}.jpg";
 
             using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
                 await input.Picture.CopyToAsync(stream);
             }
+
+            await this.picturesService.CreateProfilePicture(input, filePath, userId);
 
             return this.Redirect("Profile");
         }
