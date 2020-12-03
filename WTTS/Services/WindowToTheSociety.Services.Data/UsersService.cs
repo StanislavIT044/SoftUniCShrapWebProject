@@ -29,6 +29,7 @@
                     BirthDate = x.BirthDate,
                     Gender = x.Gender,
                     ProfilePictureUrl = x.ProfilePicture.PictureUrl,
+                    CoverPhtotoUrl = x.CoverPhoto.PictureUrl,
                 })
                 .FirstOrDefault();
 
@@ -40,6 +41,14 @@
             ApplicationUser user = this.GetUserById(userId);
 
             user.ProfilePictureId = pictureId;
+            await this.usersRepository.SaveChangesAsync();
+        }
+
+        public async Task AppendCoverPhoto(string pictureId, string userId)
+        {
+            ApplicationUser user = this.GetUserById(userId);
+
+            user.CoverPhotoId = pictureId;
             await this.usersRepository.SaveChangesAsync();
         }
 

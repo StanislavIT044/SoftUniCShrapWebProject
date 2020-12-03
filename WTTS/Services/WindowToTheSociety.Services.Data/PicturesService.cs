@@ -34,9 +34,18 @@
             await this.profilePicturesRepository.SaveChangesAsync();
         }
 
-        public async Task CreateCoverPhoto()
+        public async Task CreateCoverPhoto(AddPictureInputModel input, string filePath, string userId)
         {
-            throw new NotImplementedException();
+            CoverPhoto picture = new CoverPhoto
+            {
+                PictureUrl = filePath,
+                CreatedOn = DateTime.UtcNow,
+                ApplicationUserId = userId,
+            };
+
+            await this.coverPhotoRepository.AddAsync(picture);
+            await this.usersSurvice.AppendCoverPhoto(picture.Id, userId);
+            await this.profilePicturesRepository.SaveChangesAsync();
         }
     }
 }

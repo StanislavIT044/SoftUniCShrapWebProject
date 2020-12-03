@@ -3,6 +3,8 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
+
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -26,30 +28,23 @@
             this.picturesService = picturesService;
         }
 
+        [Authorize]
         public IActionResult Profile()
         {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return this.View("Error");
-            }
-
             string userId = this.userManager.GetUserId(this.User);
             UsersProfileViewModel viewModel = this.usersSurvice.GetProfileViewModelById(userId);
 
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult AddPicture()
         {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return this.View("Error");
-            }
-
             return this.View();
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddPicture(AddPictureInputModel input)
         {
             if (!input.Picture.FileName.EndsWith(".jpg"))
@@ -76,7 +71,14 @@
                 await input.Picture.CopyToAsync(stream);
             }
 
-            await this.picturesService.CreateProfilePicture(input, fileFolderAndName, userId);
+            if (input.Type == "ProfilePicture")
+            {
+                await this.picturesService.CreateProfilePicture(input, fileFolderAndName, userId);
+            }
+            else if (input.Type == "CoverPhoto")
+            {
+                await this.picturesService.CreateCoverPhoto(input, fileFolderAndName, userId);
+            }
 
             return this.Redirect("Profile");
         }

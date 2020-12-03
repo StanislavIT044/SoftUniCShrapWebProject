@@ -11,5 +11,7 @@
         UsersProfileViewModel GetProfileViewModelById(string userId);
 
         Task AppendProfilePicture(string pictureId, string userId);
+
+        Task AppendCoverPhoto(string pictureId, string userId);
     }
 }

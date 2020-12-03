@@ -16,7 +16,7 @@
 
         public string ProfilePictureUrl { get; set; }
 
-        //public CoverPhoto CoverPhoto { get; set; }
+        public string CoverPhtotoUrl { get; set; }
 
         //public virtual ICollection<Photo> Photos { get; set; }
     }

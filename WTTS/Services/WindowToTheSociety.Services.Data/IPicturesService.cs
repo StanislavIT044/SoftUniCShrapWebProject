@@ -10,6 +10,6 @@
     {
         Task CreateProfilePicture(AddPictureInputModel input, string filePath, string userId);
 
-        Task CreateCoverPhoto();
+        Task CreateCoverPhoto(AddPictureInputModel input, string filePath, string userId);
     }
 }
