@@ -3,10 +3,13 @@
     this.ViewData["Title"] = "Profile";
 }
 
-<div class="media col-md-4">
-    <img src="@Model.ProfilePictureUrl" width="300" class="mr-3 img-responsive">
-    <img src="@Model.CoverPhtotoUrl" width="1000" class="mr-3 img-responsive">
+<div class="container d-flex align-items-center flex-column">
+    <img src="@Model.CoverPhtotoUrl" width="700" height="500" class="masthead-avatar mb-5">
 </div>
+<div class="container d-flex align-items-center flex-column">
+    <img src="@Model.ProfilePictureUrl" width="300" height="600" class="masthead-avatar mb-5">
+</div>
+
 
 <div class="media col-md-4">
     <p>@Model.FirstName</p>
