@@ -2,9 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    using WindowToTheSociety.Data.Models;
-
-    using WindowToTheSociety.Web.ViewModels.Users;
+    using WindowToTheSociety.Web.ViewModels.Pictures;
 
     public interface IPicturesService
     {

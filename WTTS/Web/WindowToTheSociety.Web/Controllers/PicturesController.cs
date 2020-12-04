@@ -9,7 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using WindowToTheSociety.Data.Models;
     using WindowToTheSociety.Services.Data;
-    using WindowToTheSociety.Web.ViewModels.Users;
+    using WindowToTheSociety.Web.ViewModels.Pictures;
 
     public class PicturesController : Controller
     {

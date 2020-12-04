@@ -1,7 +1,6 @@
 ﻿namespace WindowToTheSociety.Services.Data
 {
     using System.Linq;
-    using System.Threading.Tasks;
 
     using WindowToTheSociety.Data.Common.Repositories;
 
@@ -34,22 +33,6 @@
                 .FirstOrDefault();
 
             return viewModel;
-        }
-
-        public async Task AppendProfilePicture(string pictureId, string userId)
-        {
-            ApplicationUser user = this.GetUserById(userId);
-
-            user.ProfilePictureId = pictureId;
-            await this.usersRepository.SaveChangesAsync();
-        }
-
-        public async Task AppendCoverPhoto(string pictureId, string userId)
-        {
-            ApplicationUser user = this.GetUserById(userId);
-
-            user.CoverPhotoId = pictureId;
-            await this.usersRepository.SaveChangesAsync();
         }
 
         public ApplicationUser GetUserById(string userId)

@@ -1,4 +1,4 @@
-﻿namespace WindowToTheSociety.Web.ViewModels.Users
+﻿namespace WindowToTheSociety.Web.ViewModels.Pictures
 {
     using System.ComponentModel.DataAnnotations;
 

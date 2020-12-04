@@ -18,7 +18,7 @@
         private readonly IUsersSurvice usersSurvice;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public UsersController(IUsersSurvice usersSurvice, IPicturesService picturesService, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
+        public UsersController(IUsersSurvice usersSurvice, UserManager<ApplicationUser> userManager)
         {
             this.usersSurvice = usersSurvice;
             this.userManager = userManager;
