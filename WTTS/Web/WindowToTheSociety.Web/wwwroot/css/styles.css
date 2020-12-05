@@ -10,6 +10,16 @@
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+
+.crop img {
+    position: center;
+    width: 900px;
+    height: 600px;
+    margin: -70px -100px -100px -50px
+    
+}
+
 .footer {
     position: initial;
     bottom: 0;
