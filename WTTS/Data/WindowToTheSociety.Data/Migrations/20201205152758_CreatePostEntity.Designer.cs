@@ -10,7 +10,7 @@ using WindowToTheSociety.Data;
 namespace WindowToTheSociety.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201205151919_CreatePostEntity")]
+    [Migration("20201205152758_CreatePostEntity")]
     partial class CreatePostEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -320,7 +320,7 @@ namespace WindowToTheSociety.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Album");
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Post", b =>

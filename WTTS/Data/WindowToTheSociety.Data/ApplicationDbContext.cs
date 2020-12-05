@@ -30,7 +30,7 @@
 
         public DbSet<CoverPhoto> CoverPhotos { get; set; }
 
-        public DbSet<Photo> Album { get; set; }
+        public DbSet<Photo> Photo { get; set; }
 
         public DbSet<Post> Posts { get; set; }
 

@@ -318,7 +318,7 @@ namespace WindowToTheSociety.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Album");
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Post", b =>
