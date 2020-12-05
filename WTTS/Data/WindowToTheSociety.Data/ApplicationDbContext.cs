@@ -30,7 +30,9 @@
 
         public DbSet<CoverPhoto> CoverPhotos { get; set; }
 
-        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Photo> Album { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

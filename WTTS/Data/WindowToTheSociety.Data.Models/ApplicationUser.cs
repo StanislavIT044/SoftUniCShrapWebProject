@@ -17,7 +17,8 @@ namespace WindowToTheSociety.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Photos = new HashSet<Photo>();
+            this.Album = new HashSet<Photo>();
+            this.Posts = new HashSet<Post>();
         }
 
         // Personal info
@@ -61,6 +62,8 @@ namespace WindowToTheSociety.Data.Models
 
         public CoverPhoto CoverPhoto { get; set; }
 
-        public virtual ICollection<Photo> Photos { get; set; }
+        public virtual ICollection<Photo> Album { get; set; }
+
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }
