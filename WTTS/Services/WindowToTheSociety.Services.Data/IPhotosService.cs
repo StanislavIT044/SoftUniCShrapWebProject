@@ -6,6 +6,6 @@
 
     public interface IPhotosService
     {
-        Task CreatePhoto(string filePath, string userId, PhotoType type);
+        Task AppendPhoto(string filePath, string userId, PhotoType type);
     }
 }

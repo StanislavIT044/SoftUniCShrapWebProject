@@ -10,16 +10,19 @@
     using Microsoft.AspNetCore.Mvc;
 
     using WindowToTheSociety.Data.Models;
+    using WindowToTheSociety.Services.Data;
     using WindowToTheSociety.Web.ViewModels.Posts;
 
     public class PostsController : Controller
     {
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IPhotosService photosService;
 
-        public PostsController(UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
+        public PostsController(UserManager<ApplicationUser> userManager, IPhotosService photosService, IWebHostEnvironment webHostEnvironment)
         {
             this.userManager = userManager;
+            this.photosService = photosService;
             this.webHostEnvironment = webHostEnvironment;
         }
 
@@ -41,19 +44,19 @@
                 return this.View();
             }
 
-            if (doesThePostContainPhoto && !input.Photo.FileName.EndsWith(".jpg"))
+            if (doesThePostContainText && input.Text.Length > 3000)
+            {
+                this.ModelState.AddModelError("Text", "Text cannot be more than 3000 symbols.");
+            }
+
+            if (!input.Photo.FileName.EndsWith(".jpg"))
             {
                 this.ModelState.AddModelError("Photo", "Invalid file type. Only file type .jpg is allowed.");
             }
 
-            if (doesThePostContainPhoto && input.Photo.Length > 10 * 1024 * 1024)
+            if (input.Photo.Length > 10 * 1024 * 1024)
             {
                 this.ModelState.AddModelError("Photo", "File too big.");
-            }
-
-            if (doesThePostContainText && input.Text.Length > 3000)
-            {
-                this.ModelState.AddModelError("Text", "Text cannot be more than 3000 symbols.");
             }
 
             if (!this.ModelState.IsValid)
@@ -66,13 +69,13 @@
             string fileFolderAndName = $"/Photos/{photoGuid}.jpg";
             string filePath = this.webHostEnvironment.WebRootPath + fileFolderAndName;
 
-            if (doesThePostContainPhoto)
+            using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
-                using (FileStream stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await input.Photo.CopyToAsync(stream);
-                }
+                await input.Photo.CopyToAsync(stream);
             }
+
+            // TODO: Implement business logic for create post
+            await this.photosService.AppendPhoto(filePath, userId, (PhotoType)3);
 
             return this.Redirect("/Users/Profile");
         }

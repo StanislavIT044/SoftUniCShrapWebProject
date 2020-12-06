@@ -53,7 +53,6 @@
             }
 
             string userId = this.userManager.GetUserId(this.User);
-            string photoGuid = Guid.NewGuid().ToString();
             string fileFolderAndName = $"/{input.Type}s" + $"/{userId}.jpg";
             string filePath = this.webHostEnvironment.WebRootPath + fileFolderAndName;
 
@@ -62,7 +61,7 @@
                 await input.Picture.CopyToAsync(stream);
             }
 
-            await this.photosService.CreatePhoto(fileFolderAndName, userId, input.Type);
+            await this.photosService.AppendPhoto(fileFolderAndName, userId, input.Type);
 
             return this.Redirect("/Users/Profile");
         }

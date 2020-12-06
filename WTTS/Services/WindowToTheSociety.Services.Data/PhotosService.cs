@@ -21,7 +21,26 @@
             this.usersSurvice = usersSurvice;
         }
 
-        public async Task CreatePhoto(string filePath, string userId, PhotoType type)
+        public async Task AppendPhoto(string filePath, string userId, PhotoType type)
+        {
+            Photo photo = await this.CreatePhoto(filePath, userId, type);
+
+            if (photo.PhotoType == (PhotoType)1 || photo.PhotoType == (PhotoType)2)
+            {
+                Photo oldPhoto = this.photosRepository.All().FirstOrDefault(x => x.ApplicationUserId == userId && x.PhotoType == photo.PhotoType);
+                if (oldPhoto != null)
+                {
+                    this.photosRepository.Delete(oldPhoto);
+                }
+            }
+
+            ApplicationUser user = this.usersSurvice.GetUserById(userId);
+
+            user.Photos.Add(photo);
+            await this.usersRepository.SaveChangesAsync();
+        }
+
+        public async Task<Photo> CreatePhoto(string filePath, string userId, PhotoType type)
         {
             Photo photo = new Photo
             {
@@ -32,22 +51,9 @@
             };
 
             await this.photosRepository.AddAsync(photo);
-            await this.AppendPhoto(photo, userId);
             await this.photosRepository.SaveChangesAsync();
-        }
 
-        private async Task AppendPhoto(Photo photo, string userId)
-        {
-            Photo oldPhoto = this.photosRepository.All().FirstOrDefault(x => x.ApplicationUserId == userId && x.PhotoType == photo.PhotoType);
-            if (oldPhoto != null)
-            {
-                this.photosRepository.Delete(oldPhoto);
-            }
-
-            ApplicationUser user = this.usersSurvice.GetUserById(userId);
-
-            user.Photos.Add(photo);
-            await this.usersRepository.SaveChangesAsync();
+            return photo;
         }
     }
 }
