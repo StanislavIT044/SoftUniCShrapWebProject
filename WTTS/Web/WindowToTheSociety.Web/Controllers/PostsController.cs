@@ -18,11 +18,13 @@
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IPhotosService photosService;
+        private readonly IPostsService postsService;
 
-        public PostsController(UserManager<ApplicationUser> userManager, IPhotosService photosService, IWebHostEnvironment webHostEnvironment)
+        public PostsController(UserManager<ApplicationUser> userManager, IPhotosService photosService, IPostsService postsService, IWebHostEnvironment webHostEnvironment)
         {
             this.userManager = userManager;
             this.photosService = photosService;
+            this.postsService = postsService;
             this.webHostEnvironment = webHostEnvironment;
         }
 
@@ -74,8 +76,8 @@
                 await input.Photo.CopyToAsync(stream);
             }
 
-            // TODO: Implement business logic for create post
-            await this.photosService.AppendPhoto(filePath, userId, (PhotoType)3);
+            await this.photosService.AppendPhoto(fileFolderAndName, userId, (PhotoType)3);
+            await this.postsService.CreatePost(fileFolderAndName, input.Text, userId);
 
             return this.Redirect("/Users/Profile");
         }

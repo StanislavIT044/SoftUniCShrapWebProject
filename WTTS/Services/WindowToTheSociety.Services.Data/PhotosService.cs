@@ -6,7 +6,6 @@
 
     using WindowToTheSociety.Data.Common.Repositories;
     using WindowToTheSociety.Data.Models;
-    using WindowToTheSociety.Web.ViewModels.Photos;
 
     public class PhotosService : IPhotosService
     {
@@ -23,11 +22,12 @@
 
         public async Task AppendPhoto(string filePath, string userId, PhotoType type)
         {
+            Photo oldPhoto = this.photosRepository.All().FirstOrDefault(x => x.ApplicationUserId == userId && x.PhotoType == type);
+
             Photo photo = await this.CreatePhoto(filePath, userId, type);
 
             if (photo.PhotoType == (PhotoType)1 || photo.PhotoType == (PhotoType)2)
             {
-                Photo oldPhoto = this.photosRepository.All().FirstOrDefault(x => x.ApplicationUserId == userId && x.PhotoType == photo.PhotoType);
                 if (oldPhoto != null)
                 {
                     this.photosRepository.Delete(oldPhoto);
