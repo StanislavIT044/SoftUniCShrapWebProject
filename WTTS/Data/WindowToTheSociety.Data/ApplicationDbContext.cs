@@ -26,10 +26,6 @@
 
         public DbSet<ApplicationUser> Users { get; set; }
 
-        public DbSet<ProfilePicture> ProfilePictures { get; set; }
-
-        public DbSet<CoverPhoto> CoverPhotos { get; set; }
-
         public DbSet<Photo> Photo { get; set; }
 
         public DbSet<Post> Posts { get; set; }

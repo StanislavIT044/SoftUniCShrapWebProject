@@ -1,15 +1,26 @@
 ﻿namespace WindowToTheSociety.Web.Controllers
 {
+    using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+
+    using WindowToTheSociety.Data.Models;
+    using WindowToTheSociety.Web.ViewModels.Posts;
 
     public class PostsController : Controller
     {
-        public PostsController()
-        {
+        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly UserManager<ApplicationUser> userManager;
 
+        public PostsController(UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
+        {
+            this.userManager = userManager;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         [Authorize]
@@ -19,8 +30,50 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost(string a)
+        public async Task<IActionResult> CreatePost(CreatePostInputModel input)
         {
+            bool doesThePostContainPhoto = input.Photo != null;
+            bool doesThePostContainText = input.Text != null;
+
+            if (!doesThePostContainPhoto && !doesThePostContainText)
+            {
+                this.ModelState.AddModelError("Text", "You can't create empty post.");
+                return this.View();
+            }
+
+            if (doesThePostContainPhoto && !input.Photo.FileName.EndsWith(".jpg"))
+            {
+                this.ModelState.AddModelError("Photo", "Invalid file type. Only file type .jpg is allowed.");
+            }
+
+            if (doesThePostContainPhoto && input.Photo.Length > 10 * 1024 * 1024)
+            {
+                this.ModelState.AddModelError("Photo", "File too big.");
+            }
+
+            if (doesThePostContainText && input.Text.Length > 3000)
+            {
+                this.ModelState.AddModelError("Text", "Text cannot be more than 3000 symbols.");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            string userId = this.userManager.GetUserId(this.User);
+            string photoGuid = Guid.NewGuid().ToString();
+            string fileFolderAndName = $"/Photos/{photoGuid}.jpg";
+            string filePath = this.webHostEnvironment.WebRootPath + fileFolderAndName;
+
+            if (doesThePostContainPhoto)
+            {
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await input.Photo.CopyToAsync(stream);
+                }
+            }
+
             return this.Redirect("/Users/Profile");
         }
     }

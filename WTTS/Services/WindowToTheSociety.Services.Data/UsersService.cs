@@ -27,8 +27,8 @@
                     Surname = x.Surname,
                     BirthDate = x.BirthDate,
                     Gender = x.Gender,
-                    ProfilePictureUrl = x.ProfilePicture.PictureUrl,
-                    CoverPhtotoUrl = x.CoverPhoto.PictureUrl,
+                    ProfilePictureUrl = x.Photos.FirstOrDefault(x => (int)x.PhotoType == 1).PictureUrl,
+                    CoverPhtotoUrl = x.Photos.FirstOrDefault(x => (int)x.PhotoType == 2).PictureUrl,
                 })
                 .FirstOrDefault();
 
@@ -37,7 +37,7 @@
 
         public ApplicationUser GetUserById(string userId)
         {
-            ApplicationUser user = this.usersRepository.All().First(x => x.Id == userId);
+            ApplicationUser user = this.usersRepository.All().FirstOrDefault(x => x.Id == userId);
 
             return user;
         }

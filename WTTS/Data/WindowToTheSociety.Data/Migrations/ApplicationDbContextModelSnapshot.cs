@@ -179,9 +179,6 @@ namespace WindowToTheSociety.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CoverPhotoId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -232,9 +229,6 @@ namespace WindowToTheSociety.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ProfilePictureId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -252,10 +246,6 @@ namespace WindowToTheSociety.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CoverPhotoId")
-                        .IsUnique()
-                        .HasFilter("[CoverPhotoId] IS NOT NULL");
-
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("NormalizedEmail")
@@ -266,34 +256,7 @@ namespace WindowToTheSociety.Data.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("ProfilePictureId")
-                        .IsUnique()
-                        .HasFilter("[ProfilePictureId] IS NOT NULL");
-
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("WindowToTheSociety.Data.Models.CoverPhoto", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PictureUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CoverPhotos");
                 });
 
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Photo", b =>
@@ -309,6 +272,9 @@ namespace WindowToTheSociety.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("PhotoType")
+                        .HasColumnType("int");
 
                     b.Property<string>("PictureUrl")
                         .IsRequired()
@@ -357,29 +323,6 @@ namespace WindowToTheSociety.Data.Migrations
                     b.HasIndex("PhotoId");
 
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("WindowToTheSociety.Data.Models.ProfilePicture", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PictureUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProfilePictures");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -433,21 +376,10 @@ namespace WindowToTheSociety.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WindowToTheSociety.Data.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("WindowToTheSociety.Data.Models.CoverPhoto", "CoverPhoto")
-                        .WithOne("ApplicationUser")
-                        .HasForeignKey("WindowToTheSociety.Data.Models.ApplicationUser", "CoverPhotoId");
-
-                    b.HasOne("WindowToTheSociety.Data.Models.ProfilePicture", "ProfilePicture")
-                        .WithOne("ApplicationUser")
-                        .HasForeignKey("WindowToTheSociety.Data.Models.ApplicationUser", "ProfilePictureId");
-                });
-
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Photo", b =>
                 {
                     b.HasOne("WindowToTheSociety.Data.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("Album")
+                        .WithMany("Photos")
                         .HasForeignKey("ApplicationUserId");
                 });
 

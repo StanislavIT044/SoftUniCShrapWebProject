@@ -18,6 +18,9 @@
         public string PictureUrl { get; set; }
 
         [Required]
+        public PhotoType PhotoType { get; set; }
+
+        [Required]
         public DateTime CreatedOn { get; set; }
 
         public string ApplicationUserId { get; set; }
