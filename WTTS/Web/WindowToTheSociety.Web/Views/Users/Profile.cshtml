@@ -3,14 +3,49 @@
     this.ViewData["Title"] = "Profile";
 }
 
-<div class="container d-flex align-items-center flex-column crop img">
-    <img src="@Model.CoverPhtotoUrl" class="masthead-avatar mb-5">
-</div>
-<div class="container d-flex align-items-center flex-column ">
-    <img src="@Model.ProfilePictureUrl" width="500" height="300" class="masthead-avatar mb-5">
+
+<div class="row">
+    <div class="col-md-8 center">
+        <div class="card-user card">
+            <div class="image">
+                <a href="@Model.CoverPhtotoUrl">
+                    <img alt="..." src="@Model.CoverPhtotoUrl" width="100%" height="80%">
+                </a>
+            </div>
+            <div class="author">
+                <div class="card-body">
+                    <a href="@Model.ProfilePictureUrl">
+                        <img alt="..." class="avatar border-gray" src="@Model.ProfilePictureUrl" width="150%">
+                    </a>
+                    <h5>@Model.FirstName @Model.Surname</h5>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
 
+<div>
 
-<div class="media col-md-4">
-    <p>@Model.FirstName</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8 center">
+        <div class="card-user card">
+
+            <div class="author">
+                <div class="card-body">
+                    <a href="@Model.ProfilePictureUrl">
+                        <img alt="..." class="avatar border-gray" src="@Model.ProfilePictureUrl" width="150%">
+                    </a>
+                    <h5>@Model.FirstName @Model.Surname</h5>
+                </div>
+            </div>
+            <div class="image">
+                <a href="@Model.CoverPhtotoUrl">
+                    <img alt="..." src="@Model.CoverPhtotoUrl" width="100%" height="80%">
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
