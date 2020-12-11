@@ -56,5 +56,8 @@ namespace WindowToTheSociety.Data.Models
 
         // Posts
         public virtual ICollection<Post> Posts { get; set; }
+
+        // Pages
+        public virtual ICollection<Page> Pages { get; set; }
     }
 }
