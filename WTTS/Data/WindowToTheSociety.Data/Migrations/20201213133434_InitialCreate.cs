@@ -173,7 +173,8 @@ namespace WindowToTheSociety.Data.Migrations
                     PictureUrl = table.Column<string>(nullable: false),
                     PhotoType = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    ApplicationUserId = table.Column<string>(nullable: true),
+                    PageId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,6 +183,36 @@ namespace WindowToTheSociety.Data.Migrations
                         name: "FK_Photo_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pages",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    ApplicationUserId = table.Column<string>(nullable: true),
+                    PhotoId = table.Column<string>(nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pages_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pages_Photo_PhotoId",
+                        column: x => x.PhotoId,
+                        principalTable: "Photo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -197,7 +228,8 @@ namespace WindowToTheSociety.Data.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true)
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    PageId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -206,6 +238,12 @@ namespace WindowToTheSociety.Data.Migrations
                         name: "FK_Posts_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Posts_Pages_PageId",
+                        column: x => x.PageId,
+                        principalTable: "Pages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -266,6 +304,23 @@ namespace WindowToTheSociety.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pages_ApplicationUserId",
+                table: "Pages",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pages_IsDeleted",
+                table: "Pages",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pages_PhotoId",
+                table: "Pages",
+                column: "PhotoId",
+                unique: true,
+                filter: "[PhotoId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Photo_ApplicationUserId",
                 table: "Photo",
                 column: "ApplicationUserId");
@@ -279,6 +334,11 @@ namespace WindowToTheSociety.Data.Migrations
                 name: "IX_Posts_IsDeleted",
                 table: "Posts",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_PageId",
+                table: "Posts",
+                column: "PageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_PhotoId",
@@ -308,6 +368,9 @@ namespace WindowToTheSociety.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Pages");
 
             migrationBuilder.DropTable(
                 name: "Photo");

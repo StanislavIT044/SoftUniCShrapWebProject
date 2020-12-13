@@ -279,6 +279,9 @@ namespace WindowToTheSociety.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PhotoId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -287,6 +290,10 @@ namespace WindowToTheSociety.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PhotoId")
+                        .IsUnique()
+                        .HasFilter("[PhotoId] IS NOT NULL");
 
                     b.ToTable("Pages");
                 });
@@ -304,6 +311,9 @@ namespace WindowToTheSociety.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PageId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhotoType")
                         .HasColumnType("int");
@@ -418,6 +428,10 @@ namespace WindowToTheSociety.Data.Migrations
                     b.HasOne("WindowToTheSociety.Data.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Pages")
                         .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("WindowToTheSociety.Data.Models.Photo", "Photo")
+                        .WithOne("Page")
+                        .HasForeignKey("WindowToTheSociety.Data.Models.Page", "PhotoId");
                 });
 
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Photo", b =>

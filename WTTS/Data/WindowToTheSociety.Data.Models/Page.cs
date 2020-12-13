@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using WindowToTheSociety.Data.Common.Models;
 
     public class Page : IAuditInfo, IDeletableEntity
@@ -20,6 +20,11 @@
         public string ApplicationUserId { get; set; }
 
         public ApplicationUser ApplicationUser { get; set; }
+
+        [ForeignKey("Photo")]
+        public string PhotoId { get; set; }
+
+        public Photo Photo { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

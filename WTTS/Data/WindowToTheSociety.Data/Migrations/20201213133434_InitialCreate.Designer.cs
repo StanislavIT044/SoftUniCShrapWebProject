@@ -10,7 +10,7 @@ using WindowToTheSociety.Data;
 namespace WindowToTheSociety.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201206144209_InitialCreate")]
+    [Migration("20201213133434_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -261,6 +261,45 @@ namespace WindowToTheSociety.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("WindowToTheSociety.Data.Models.Page", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PhotoId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PhotoId")
+                        .IsUnique()
+                        .HasFilter("[PhotoId] IS NOT NULL");
+
+                    b.ToTable("Pages");
+                });
+
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Photo", b =>
                 {
                     b.Property<string>("Id")
@@ -274,6 +313,9 @@ namespace WindowToTheSociety.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PageId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhotoType")
                         .HasColumnType("int");
@@ -309,6 +351,9 @@ namespace WindowToTheSociety.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PageId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("PhotoId")
                         .HasColumnType("nvarchar(450)");
 
@@ -321,6 +366,8 @@ namespace WindowToTheSociety.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PageId");
 
                     b.HasIndex("PhotoId");
 
@@ -378,6 +425,17 @@ namespace WindowToTheSociety.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WindowToTheSociety.Data.Models.Page", b =>
+                {
+                    b.HasOne("WindowToTheSociety.Data.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Pages")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("WindowToTheSociety.Data.Models.Photo", "Photo")
+                        .WithOne("Page")
+                        .HasForeignKey("WindowToTheSociety.Data.Models.Page", "PhotoId");
+                });
+
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Photo", b =>
                 {
                     b.HasOne("WindowToTheSociety.Data.Models.ApplicationUser", "ApplicationUser")
@@ -390,6 +448,10 @@ namespace WindowToTheSociety.Data.Migrations
                     b.HasOne("WindowToTheSociety.Data.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Posts")
                         .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("WindowToTheSociety.Data.Models.Page", null)
+                        .WithMany("Posts")
+                        .HasForeignKey("PageId");
 
                     b.HasOne("WindowToTheSociety.Data.Models.Photo", "Photo")
                         .WithMany()

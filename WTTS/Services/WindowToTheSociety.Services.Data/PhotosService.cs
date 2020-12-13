@@ -24,7 +24,7 @@
         {
             Photo oldPhoto = this.photosRepository.All().FirstOrDefault(x => x.ApplicationUserId == userId && x.PhotoType == type);
 
-            Photo photo = await this.CreatePhoto(filePath, userId, type);
+            Photo photo = await this.CreatePhoto(filePath, userId, null, type);
 
             if (photo.PhotoType == (PhotoType)1 || photo.PhotoType == (PhotoType)2)
             {
@@ -40,7 +40,7 @@
             await this.usersRepository.SaveChangesAsync();
         }
 
-        public async Task<Photo> CreatePhoto(string filePath, string userId, PhotoType type)
+        public async Task<Photo> CreatePhoto(string filePath, string userId, string pageId, PhotoType type)
         {
             Photo photo = new Photo
             {
@@ -48,6 +48,7 @@
                 PhotoType = type,
                 CreatedOn = DateTime.UtcNow,
                 ApplicationUserId = userId,
+                PageId = pageId,
             };
 
             await this.photosRepository.AddAsync(photo);
