@@ -45,6 +45,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\CoverPhotos\" />
+    <Folder Include="wwwroot\PagesCoverPhotos\" />
     <Folder Include="wwwroot\Photos\" />
     <Folder Include="wwwroot\ProfilePictures\" />
   </ItemGroup>

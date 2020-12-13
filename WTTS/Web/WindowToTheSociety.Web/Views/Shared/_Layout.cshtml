@@ -22,9 +22,6 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link btn btn-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link btn btn-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         @if (this.User.Identity.IsAuthenticated)
@@ -37,6 +34,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-link" asp-area="" asp-controller="Posts" asp-action="CreatePost">Create Post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-link" asp-area="" asp-controller="Pages" asp-action="PagesMenu">Your pages</a>
                             </li>
                         }
                     </ul>
