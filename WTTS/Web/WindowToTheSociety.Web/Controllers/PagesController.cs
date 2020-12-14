@@ -28,7 +28,10 @@
 
         public IActionResult PagesMenu()
         {
-            return this.View();
+            string userId = this.userManager.GetUserId(this.User);
+            SelectPagesViewModel pages = this.pagesService.GetSelectPagesViewModel(userId);
+
+            return this.View(pages);
         }
 
         public IActionResult CreatePage()
@@ -39,15 +42,7 @@
         [HttpPost]
         public async Task<IActionResult> CreatePage(CreatePageInputModel input)
         {
-            if (!input.Picture.FileName.EndsWith(".jpg"))
-            {
-                this.ModelState.AddModelError("Picture", "Invalid file type.");
-            }
-
-            if (input.Picture.Length > 10 * 1024 * 1024)
-            {
-                this.ModelState.AddModelError("Picture", "File too big.");
-            }
+            this.DataValidation(input);
 
             if (!this.ModelState.IsValid)
             {
@@ -55,24 +50,55 @@
             }
 
             string userId = this.userManager.GetUserId(this.User);
-            string fileFolderAndName = $"/PagesCoverPhotos" + $"/{input.Title}.jpg";
-            string filePath = this.webHostEnvironment.WebRootPath + fileFolderAndName;
-
-            using (FileStream stream = new FileStream(filePath, FileMode.Create))
-            {
-                await input.Picture.CopyToAsync(stream);
-            }
 
             await this.pagesService.CreatePage(input.Title, userId);
+            await this.AddCoverPhoto(input);
 
+            return this.Redirect("/");
+        }
+
+        private async Task AddCoverPhoto(CreatePageInputModel input)
+        {
             if (input.Picture != null)
             {
+                string fileFolderAndName = $"/PagesCoverPhotos" + $"/{input.Title}.jpg";
+                string filePath = this.webHostEnvironment.WebRootPath + fileFolderAndName;
+
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await input.Picture.CopyToAsync(stream);
+                }
+
                 string pageId = this.pagesService.GetIdByTitle(input.Title);
                 await this.photosService.CreatePhoto(fileFolderAndName, null, pageId, (PhotoType)2);
                 await this.pagesService.AppendPicture(input.Title, fileFolderAndName);
             }
+        }
 
-            return this.Redirect("/");
+        private void DataValidation(CreatePageInputModel input)
+        {
+            if (input.Picture != null)
+            {
+                if (!input.Picture.FileName.EndsWith(".jpg"))
+                {
+                    this.ModelState.AddModelError("Picture", "Invalid file type.");
+                }
+
+                if (input.Picture.Length > 10 * 1024 * 1024)
+                {
+                    this.ModelState.AddModelError("Picture", "File too big.");
+                }
+            }
+
+            if (input.Title.Length > 40)
+            {
+                this.ModelState.AddModelError("Title", "Title should between 3 and 40.");
+            }
+
+            if (input.Title.Length < 3)
+            {
+                this.ModelState.AddModelError("Title", "Title should between 3 and 40.");
+            }
         }
     }
 }

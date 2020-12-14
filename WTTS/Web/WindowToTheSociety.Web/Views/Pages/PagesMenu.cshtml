@@ -1,4 +1,6 @@
-﻿@{
+﻿@using WindowToTheSociety.Web.ViewModels.Pages
+@model SelectPagesViewModel
+@{
     this.ViewData["Title"] = "Pages menu";
 }
 
@@ -6,34 +8,17 @@
     <h1 class="col-md-6">Your pages:</h1>
     <div class="col-md-8">
         <div class="row">
-            <div class="card-body col-md-8">
-                <img class="card-img-top" src="https://recepti.gotvach.bg/files/lib/600x350/supa-pateshko-konfi.jpg" alt="Супа от патешко бутче конфи">
-                <div class="card-body">
-                    <h5 class="card-title">Page name</h5>
-                    <a class="btn btn-primary" href="/Recipes/ById/23558">Go to (page name)</a>
+            @foreach (var p in this.Model.AllPages)
+            {
+                <div class="card-body col-md-8">
+                    <img src="@p.CoverPhotoUrl" width="80%" class="">
+                    <div class="card-body">
+                        <h5 class="card-title">@p.Title</h5>
+                        <a asp-action="ById" asp-route-id="@p.Id">Go to @p.Title</a>
+                        
+                    </div>
                 </div>
-            </div>
-            <div class="card-body  col-md-8">
-                <img class="card-img-top" src="https://recepti.gotvach.bg/files/lib/600x350/supa-pateshko-konfi.jpg" alt="Супа от патешко бутче конфи">
-                <div class="card-body">
-                    <h5 class="card-title">Page name</h5>
-                    <a class="btn btn-primary" href="/Recipes/ById/23558">Go to (page name)</a>
-                </div>
-            </div>
-            <div class="card-body  col-md-8">
-                <img class="card-img-top" src="https://recepti.gotvach.bg/files/lib/600x350/supa-pateshko-konfi.jpg" alt="Супа от патешко бутче конфи">
-                <div class="card-body">
-                    <h5 class="card-title">Page name</h5>
-                    <a class="btn btn-primary" href="/Recipes/ById/23558">Go to (page name)</a>
-                </div>
-            </div>
-            <div class="card-body  col-md-8">
-                <img class="card-img-top" src="https://recepti.gotvach.bg/files/lib/600x350/supa-pateshko-konfi.jpg" alt="Супа от патешко бутче конфи">
-                <div class="card-body">
-                    <h5 class="card-title">Page name</h5>
-                    <a class="btn btn-primary" href="/Recipes/ById/23558">Go to (page name)</a>
-                </div>
-            </div>            
+            }
         </div>
     </div>
     <div class="col-md-4">

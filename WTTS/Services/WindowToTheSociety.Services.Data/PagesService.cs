@@ -1,11 +1,12 @@
 ﻿namespace WindowToTheSociety.Services.Data
 {
-    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using WindowToTheSociety.Data.Common.Repositories;
     using WindowToTheSociety.Data.Models;
+    using WindowToTheSociety.Web.ViewModels.Pages;
 
     public class PagesService : IPagesService
     {
@@ -46,6 +47,37 @@
             Page page = this.pageRepository.AllAsNoTracking().FirstOrDefault(x => x.Title == title);
 
             return page.Id;
+        }
+
+        public SelectPagesViewModel GetSelectPagesViewModel(string userId)
+        {
+            List<Page> usersPages = this.pageRepository
+                .All()
+                .Where(x => x.ApplicationUserId == userId)
+                .ToList();
+
+            SelectPagesViewModel pages = new SelectPagesViewModel();
+            pages.AllPages = new List<SelectPageViewModel>();
+
+            foreach (var page in usersPages)
+            {
+                Photo photo = this.photosRepository.All().FirstOrDefault(x => x.PageId == page.Id);
+
+                SelectPageViewModel modelPage = new SelectPageViewModel()
+                {
+                    Id = page.Id,
+                    Title = page.Title,
+                };
+
+                if (photo != null)
+                {
+                    modelPage.CoverPhotoUrl = photo.PictureUrl;
+                }
+
+                pages.AllPages.Add(modelPage);
+            }
+
+            return pages;
         }
     }
 }
