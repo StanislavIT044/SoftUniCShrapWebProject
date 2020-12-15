@@ -83,11 +83,19 @@
 
         public PageViewModel GetPageViewModel(string pageId)
         {
-            PageViewModel pageViewModel = this.pageRepository
+            Page page = this.pageRepository
                 .AllAsNoTracking()
-                .Where(x => x.Id == pageId)
-                .To<PageViewModel>()
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.Id == pageId);
+
+            PageViewModel pageViewModel = new PageViewModel
+            {
+                Id = page.Id,
+                Title = page.Title,
+                ApplicationUserId = page.ApplicationUserId,
+                PhotoId = page.PhotoId,
+                CreatedOn = page.CreatedOn,
+                Posts = page.Posts,
+            };
 
             return pageViewModel;
         }
