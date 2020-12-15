@@ -1,11 +1,7 @@
 ﻿namespace WindowToTheSociety.Web.Controllers
 {
-    using System.IO;
-    using System.Threading.Tasks;
-
     using Microsoft.AspNetCore.Authorization;
 
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -25,10 +21,9 @@
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public IActionResult Profile(string id)
         {
-            string userId = this.userManager.GetUserId(this.User);
-            UsersProfileViewModel viewModel = this.usersSurvice.GetProfileViewModelById(userId);
+            UsersProfileViewModel viewModel = this.usersSurvice.GetProfileViewModelById(id);
 
             return this.View(viewModel);
         }

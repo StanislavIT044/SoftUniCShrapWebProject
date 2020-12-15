@@ -89,20 +89,6 @@
                 .To<PageViewModel>()
                 .FirstOrDefault();
 
-            //Page page = this.pageRepository
-            //    .AllAsNoTracking()
-            //    .FirstOrDefault(x => x.Id == pageId);
-
-            //PageViewModel pageViewModel = new PageViewModel
-            //{
-            //    Id = page.Id,
-            //    Title = page.Title,
-            //    ApplicationUserId = page.ApplicationUserId,
-            //    PhotoId = page.PhotoId,
-            //    CreatedOn = page.CreatedOn,
-            //    Posts = page.Posts,
-            //};
-
             return pageViewModel;
         }
     }
