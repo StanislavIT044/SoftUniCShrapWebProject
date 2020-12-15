@@ -6,6 +6,6 @@
 
         public string Title { get; set; }
 
-        public string? CoverPhotoUrl { get; set; }
+        public string CoverPhotoUrl { get; set; }
     }
 }

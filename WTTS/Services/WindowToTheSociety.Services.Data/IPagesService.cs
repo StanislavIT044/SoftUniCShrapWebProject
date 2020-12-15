@@ -13,5 +13,7 @@
         string GetIdByTitle(string title);
 
         SelectPagesViewModel GetSelectPagesViewModel(string userId);
+
+        PageViewModel GetPageViewModel(string pageId);
     }
 }

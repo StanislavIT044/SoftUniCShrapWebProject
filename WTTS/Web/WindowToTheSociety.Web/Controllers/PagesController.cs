@@ -34,6 +34,13 @@
             return this.View(pages);
         }
 
+        public IActionResult Page(string id)
+        {
+            PageViewModel page = this.pagesService.GetPageViewModel(id);
+
+            return this.View(page);
+        }
+
         public IActionResult CreatePage()
         {
             return this.View();

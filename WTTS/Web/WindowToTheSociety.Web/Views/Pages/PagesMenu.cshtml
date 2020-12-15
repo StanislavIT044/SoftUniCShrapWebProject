@@ -14,8 +14,9 @@
                     <img src="@p.CoverPhotoUrl" width="80%" class="">
                     <div class="card-body">
                         <h5 class="card-title">@p.Title</h5>
-                        <a asp-action="ById" asp-route-id="@p.Id">Go to @p.Title</a>
-                        
+                        <h5 class="mt-0">
+                            <a asp-action="Page" asp-route-id="@p.Id">Go to @p.Title</a>
+                        </h5>
                     </div>
                 </div>
             }

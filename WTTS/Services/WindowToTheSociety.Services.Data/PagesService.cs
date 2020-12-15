@@ -6,6 +6,7 @@
 
     using WindowToTheSociety.Data.Common.Repositories;
     using WindowToTheSociety.Data.Models;
+    using WindowToTheSociety.Services.Mapping;
     using WindowToTheSociety.Web.ViewModels.Pages;
 
     public class PagesService : IPagesService
@@ -78,6 +79,31 @@
             }
 
             return pages;
+        }
+
+        public PageViewModel GetPageViewModel(string pageId)
+        {
+            PageViewModel pageViewModel = this.pageRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == pageId)
+                .To<PageViewModel>()
+                .FirstOrDefault();
+
+            //Page page = this.pageRepository
+            //    .AllAsNoTracking()
+            //    .FirstOrDefault(x => x.Id == pageId);
+
+            //PageViewModel pageViewModel = new PageViewModel
+            //{
+            //    Id = page.Id,
+            //    Title = page.Title,
+            //    ApplicationUserId = page.ApplicationUserId,
+            //    PhotoId = page.PhotoId,
+            //    CreatedOn = page.CreatedOn,
+            //    Posts = page.Posts,
+            //};
+
+            return pageViewModel;
         }
     }
 }
