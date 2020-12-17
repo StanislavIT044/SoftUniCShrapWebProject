@@ -1,6 +1,7 @@
 ﻿namespace WindowToTheSociety.Web.ViewModels.Users
 {
     using System;
+    using System.Collections.Generic;
 
     using WindowToTheSociety.Data.Models;
 
@@ -18,6 +19,8 @@
 
         public string CoverPhtotoUrl { get; set; }
 
-        //public virtual ICollection<Photo> Photos { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; }
+
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

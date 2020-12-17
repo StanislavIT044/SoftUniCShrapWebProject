@@ -27,10 +27,15 @@
             Post post = new Post
             {
                 Text = text,
-                PhotoId = photo.Id,
                 ApplicationUserId = userId,
                 CreatedOn = DateTime.UtcNow,
             };
+
+            if (photo != null)
+            {
+                post.PhotoId = photo.Id;
+                post.Photo = photo;
+            }
 
             await this.postRepository.AddAsync(post);
             await this.postRepository.SaveChangesAsync();

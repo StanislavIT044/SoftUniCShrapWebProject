@@ -1,5 +1,6 @@
 ﻿namespace WindowToTheSociety.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using WindowToTheSociety.Data.Common.Repositories;
@@ -10,27 +11,40 @@
     public class UsersService : IUsersSurvice
     {
         private readonly IRepository<ApplicationUser> usersRepository;
+        private readonly IRepository<Photo> photosRepository;
+        private readonly IRepository<Post> postRepository;
 
-        public UsersService(IRepository<ApplicationUser> users)
+        public UsersService(IRepository<ApplicationUser> users, IRepository<Photo> photosRepository, IRepository<Post> postRepository)
         {
             this.usersRepository = users;
+            this.photosRepository = photosRepository;
+            this.postRepository = postRepository;
         }
 
         public UsersProfileViewModel GetProfileViewModelById(string userId)
         {
-            UsersProfileViewModel viewModel = this.usersRepository
-                .AllAsNoTracking()
-                .Where(x => x.Id == userId)
-                .Select(x => new UsersProfileViewModel
-                {
-                    FirstName = x.FirstName,
-                    Surname = x.Surname,
-                    BirthDate = x.BirthDate,
-                    Gender = x.Gender,
-                    ProfilePictureUrl = x.Photos.FirstOrDefault(x => (int)x.PhotoType == 1).PictureUrl,
-                    CoverPhtotoUrl = x.Photos.FirstOrDefault(x => (int)x.PhotoType == 2).PictureUrl,
-                })
-                .FirstOrDefault();
+            ApplicationUser user = this.usersRepository.All().FirstOrDefault(x => x.Id == userId);
+            List<Post> posts = this.postRepository.All().Where(x => x.ApplicationUserId == userId).ToList();
+            List<Photo> photos = this.photosRepository.All().Where(x => x.ApplicationUserId == userId).ToList();
+
+            UsersProfileViewModel viewModel = new UsersProfileViewModel
+            {
+                FirstName = user.FirstName,
+                Surname = user.Surname,
+                BirthDate = user.BirthDate,
+                Gender = user.Gender,
+            };
+
+            if (posts != null)
+            {
+               viewModel.Posts = posts;
+            }
+
+            if (photos.Count != 0)
+            {
+                viewModel.ProfilePictureUrl = photos.FirstOrDefault(x => (int)x.PhotoType == 1).PictureUrl;
+                viewModel.CoverPhtotoUrl = photos.FirstOrDefault(x => (int)x.PhotoType == 2).PictureUrl;
+            }
 
             return viewModel;
         }

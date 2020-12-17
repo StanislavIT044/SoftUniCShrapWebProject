@@ -21,9 +21,10 @@
         }
 
         [Authorize]
-        public IActionResult Profile(string id)
+        public IActionResult Profile()
         {
-            UsersProfileViewModel viewModel = this.usersSurvice.GetProfileViewModelById(id);
+            string userId = this.userManager.GetUserId(this.User);
+            UsersProfileViewModel viewModel = this.usersSurvice.GetProfileViewModelById(userId);
 
             return this.View(viewModel);
         }

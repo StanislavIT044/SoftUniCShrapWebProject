@@ -51,14 +51,17 @@
                 this.ModelState.AddModelError("Text", "Text cannot be more than 3000 symbols.");
             }
 
-            if (!input.Photo.FileName.EndsWith(".jpg"))
+            if (doesThePostContainPhoto)
             {
-                this.ModelState.AddModelError("Photo", "Invalid file type. Only file type .jpg is allowed.");
-            }
+                if (!input.Photo.FileName.EndsWith(".jpg"))
+                {
+                    this.ModelState.AddModelError("Photo", "Invalid file type. Only file type .jpg is allowed.");
+                }
 
-            if (input.Photo.Length > 10 * 1024 * 1024)
-            {
-                this.ModelState.AddModelError("Photo", "File too big.");
+                if (input.Photo.Length > 10 * 1024 * 1024)
+                {
+                    this.ModelState.AddModelError("Photo", "File too big.");
+                }
             }
 
             if (!this.ModelState.IsValid)
@@ -69,17 +72,26 @@
             string userId = this.userManager.GetUserId(this.User);
             string photoGuid = Guid.NewGuid().ToString();
             string fileFolderAndName = $"/Photos/{photoGuid}.jpg";
-            string filePath = this.webHostEnvironment.WebRootPath + fileFolderAndName;
 
-            using (FileStream stream = new FileStream(filePath, FileMode.Create))
-            {
-                await input.Photo.CopyToAsync(stream);
-            }
-
-            await this.photosService.AppendPhoto(fileFolderAndName, userId, (PhotoType)3);
+            await this.AppendPhoto(input, userId, fileFolderAndName, doesThePostContainPhoto);
             await this.postsService.CreatePost(fileFolderAndName, input.Text, userId);
 
             return this.Redirect("/Users/Profile");
+        }
+
+        private async Task AppendPhoto(CreatePostInputModel input, string userId, string fileFolderAndName, bool doesThePostContainPhoto)
+        {
+            if (doesThePostContainPhoto)
+            {
+                string filePath = this.webHostEnvironment.WebRootPath + fileFolderAndName;
+
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await input.Photo.CopyToAsync(stream);
+                }
+
+                await this.photosService.AppendPhoto(fileFolderAndName, userId, (PhotoType)3);
+            }
         }
     }
 }
