@@ -11,9 +11,11 @@
 
         public string Title { get; set; }
 
-        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         public string PhotoId { get; set; }
+
+        public string CoverPhotoUrl { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

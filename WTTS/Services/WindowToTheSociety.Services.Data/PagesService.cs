@@ -13,11 +13,13 @@
     {
         private readonly IRepository<Page> pageRepository;
         private readonly IRepository<Photo> photosRepository;
+        private readonly IRepository<ApplicationUser> usersRepository;
 
-        public PagesService(IRepository<Page> pageRepository, IRepository<Photo> photosRepository)
+        public PagesService(IRepository<Page> pageRepository, IRepository<Photo> photosRepository, IRepository<ApplicationUser> usersRepository)
         {
             this.pageRepository = pageRepository;
             this.photosRepository = photosRepository;
+            this.usersRepository = usersRepository;
         }
 
         public async Task CreatePage(string title, string userId)
@@ -86,16 +88,22 @@
             Page page = this.pageRepository
                 .AllAsNoTracking()
                 .FirstOrDefault(x => x.Id == pageId);
+            Photo photo = this.photosRepository.AllAsNoTracking().FirstOrDefault(x => x.PageId == pageId);
+            ApplicationUser user = this.usersRepository.AllAsNoTracking().FirstOrDefault(x => x.Id == page.ApplicationUserId);
 
             PageViewModel pageViewModel = new PageViewModel
             {
                 Id = page.Id,
                 Title = page.Title,
-                ApplicationUserId = page.ApplicationUserId,
-                PhotoId = page.PhotoId,
+                ApplicationUser = user,
                 CreatedOn = page.CreatedOn,
                 Posts = page.Posts,
             };
+
+            if (photo != null)
+            {
+                pageViewModel.CoverPhotoUrl = photo.PictureUrl;
+            }
 
             return pageViewModel;
         }
