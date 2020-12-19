@@ -42,8 +42,15 @@
 
             if (photos.Count != 0)
             {
-                viewModel.ProfilePictureUrl = photos.FirstOrDefault(x => (int)x.PhotoType == 1).PictureUrl;
-                viewModel.CoverPhtotoUrl = photos.FirstOrDefault(x => (int)x.PhotoType == 2).PictureUrl;
+                if (photos.Contains(photos.FirstOrDefault(x => (int)x.PhotoType == 1)))
+                {
+                    viewModel.ProfilePictureUrl = photos.FirstOrDefault(x => (int)x.PhotoType == 1).PictureUrl;
+                }
+
+                if (photos.Contains(photos.FirstOrDefault(x => (int)x.PhotoType == 2)))
+                {
+                    viewModel.CoverPhtotoUrl = photos.FirstOrDefault(x => (int)x.PhotoType == 2).PictureUrl; // null?0
+                }
             }
 
             return viewModel;
