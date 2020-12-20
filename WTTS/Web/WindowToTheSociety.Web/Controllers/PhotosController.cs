@@ -61,7 +61,7 @@
                 await input.Picture.CopyToAsync(stream);
             }
 
-            await this.photosService.AppendPhoto(fileFolderAndName, userId, input.Type);
+            await this.photosService.AppendPhoto(fileFolderAndName, userId, null, input.Type);
 
             return this.Redirect("/Users/Profile");
         }

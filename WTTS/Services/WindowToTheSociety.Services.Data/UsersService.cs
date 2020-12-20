@@ -49,7 +49,7 @@
 
                 if (photos.Contains(photos.FirstOrDefault(x => (int)x.PhotoType == 2)))
                 {
-                    viewModel.CoverPhtotoUrl = photos.FirstOrDefault(x => (int)x.PhotoType == 2).PictureUrl; // null?0
+                    viewModel.CoverPhtotoUrl = photos.FirstOrDefault(x => (int)x.PhotoType == 2).PictureUrl;
                 }
             }
 

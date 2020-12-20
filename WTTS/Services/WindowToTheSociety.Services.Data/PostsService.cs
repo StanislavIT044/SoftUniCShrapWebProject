@@ -20,16 +20,24 @@
             this.postRepository = postRepository;
         }
 
-        public async Task CreatePost(string photoPath, string text, string userId)
+        public async Task CreatePost(string photoPath, string text, string userId, string pageId)
         {
             Photo photo = this.photosRepository.All().FirstOrDefault(x => x.PictureUrl == photoPath);
 
             Post post = new Post
             {
                 Text = text,
-                ApplicationUserId = userId,
                 CreatedOn = DateTime.UtcNow,
             };
+
+            if (userId != null)
+            {
+                post.ApplicationUserId = userId;
+            }
+            else if (pageId != null)
+            {
+                post.PageId = pageId;
+            }
 
             if (photo != null)
             {

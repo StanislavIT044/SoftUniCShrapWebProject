@@ -14,12 +14,14 @@
         private readonly IRepository<Page> pageRepository;
         private readonly IRepository<Photo> photosRepository;
         private readonly IRepository<ApplicationUser> usersRepository;
+        private readonly IRepository<Post> postRepository;
 
-        public PagesService(IRepository<Page> pageRepository, IRepository<Photo> photosRepository, IRepository<ApplicationUser> usersRepository)
+        public PagesService(IRepository<Page> pageRepository, IRepository<Photo> photosRepository, IRepository<ApplicationUser> usersRepository, IRepository<Post> postRepository)
         {
             this.pageRepository = pageRepository;
             this.photosRepository = photosRepository;
             this.usersRepository = usersRepository;
+            this.postRepository = postRepository;
         }
 
         public async Task CreatePage(string title, string userId)
@@ -90,6 +92,7 @@
                 .FirstOrDefault(x => x.Id == pageId);
             Photo photo = this.photosRepository.AllAsNoTracking().FirstOrDefault(x => x.PageId == pageId);
             ApplicationUser user = this.usersRepository.AllAsNoTracking().FirstOrDefault(x => x.Id == page.ApplicationUserId);
+            List<Post> posts = this.postRepository.All().Where(x => x.PageId == pageId).ToList();
 
             PageViewModel pageViewModel = new PageViewModel
             {
@@ -97,8 +100,12 @@
                 Title = page.Title,
                 ApplicationUser = user,
                 CreatedOn = page.CreatedOn,
-                Posts = page.Posts,
             };
+
+            if (posts != null)
+            {
+                pageViewModel.Posts = posts;
+            }
 
             if (photo != null)
             {

@@ -10,23 +10,23 @@ using WindowToTheSociety.Data;
 namespace WindowToTheSociety.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201213133434_InitialCreate")]
+    [Migration("20201219221505_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.1");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -50,7 +50,7 @@ namespace WindowToTheSociety.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -147,12 +147,12 @@ namespace WindowToTheSociety.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -160,7 +160,7 @@ namespace WindowToTheSociety.Data.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
+                        .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
@@ -188,16 +188,16 @@ namespace WindowToTheSociety.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(25)")
-                        .HasMaxLength(25);
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
@@ -215,12 +215,12 @@ namespace WindowToTheSociety.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -236,26 +236,26 @@ namespace WindowToTheSociety.Data.Migrations
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
+                        .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
@@ -358,8 +358,8 @@ namespace WindowToTheSociety.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Text")
-                        .HasColumnType("nvarchar(3000)")
-                        .HasMaxLength(3000);
+                        .HasMaxLength(3000)
+                        .HasColumnType("nvarchar(3000)");
 
                     b.HasKey("Id");
 
@@ -434,6 +434,10 @@ namespace WindowToTheSociety.Data.Migrations
                     b.HasOne("WindowToTheSociety.Data.Models.Photo", "Photo")
                         .WithOne("Page")
                         .HasForeignKey("WindowToTheSociety.Data.Models.Page", "PhotoId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Photo");
                 });
 
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Photo", b =>
@@ -441,6 +445,8 @@ namespace WindowToTheSociety.Data.Migrations
                     b.HasOne("WindowToTheSociety.Data.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Photos")
                         .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Post", b =>
@@ -449,13 +455,44 @@ namespace WindowToTheSociety.Data.Migrations
                         .WithMany("Posts")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("WindowToTheSociety.Data.Models.Page", null)
+                    b.HasOne("WindowToTheSociety.Data.Models.Page", "Page")
                         .WithMany("Posts")
                         .HasForeignKey("PageId");
 
                     b.HasOne("WindowToTheSociety.Data.Models.Photo", "Photo")
                         .WithMany()
                         .HasForeignKey("PhotoId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Page");
+
+                    b.Navigation("Photo");
+                });
+
+            modelBuilder.Entity("WindowToTheSociety.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Logins");
+
+                    b.Navigation("Pages");
+
+                    b.Navigation("Photos");
+
+                    b.Navigation("Posts");
+
+                    b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("WindowToTheSociety.Data.Models.Page", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("WindowToTheSociety.Data.Models.Photo", b =>
+                {
+                    b.Navigation("Page");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,28 @@
+﻿@model WindowToTheSociety.Web.ViewModels.Posts.CreatePostInputModel
+@{
+    this.ViewData["Title"] = "Add Post";
+}
+
+<div class="col-md-12 center">
+    <h1>Add Post</h1>
+</div>
+
+<div>
+    <form method="post" class="form-group col-md-12" enctype="multipart/form-data">
+        <div class="form-group col-md-12">
+            <label asp-for="Photo"></label>
+            <input asp-for="Photo" class="form-control" />
+            <span asp-validation-for="Photo" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-12">
+            <label asp-for="Text"></label>
+            <textarea asp-for="Text" class="form-control" rows="10" cols="139"></textarea>
+            <span asp-validation-for="Text" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12 text-center">
+            <input type="submit" class="btn btn-primary" value="Post" />
+        </div>
+    </form>
+</div>

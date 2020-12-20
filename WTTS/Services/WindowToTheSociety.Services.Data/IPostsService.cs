@@ -4,6 +4,6 @@
 
     public interface IPostsService
     {
-        Task CreatePost(string photoPath, string text, string userId);
+        Task CreatePost(string photoPath, string text, string userId, string pageId);
     }
 }

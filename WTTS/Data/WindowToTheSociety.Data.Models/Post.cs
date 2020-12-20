@@ -25,6 +25,10 @@
 
         public ApplicationUser ApplicationUser { get; set; }
 
+        public string PageId { get; set; }
+
+        public Page Page { get; set; }
+
         // TODO: Implement Likes int [Required], ICollection<Comment> Comments
 
         // Audit info

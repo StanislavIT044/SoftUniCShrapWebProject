@@ -74,7 +74,7 @@
             string fileFolderAndName = $"/Photos/{photoGuid}.jpg";
 
             await this.AppendPhoto(input, userId, fileFolderAndName, doesThePostContainPhoto);
-            await this.postsService.CreatePost(fileFolderAndName, input.Text, userId);
+            await this.postsService.CreatePost(fileFolderAndName, input.Text, userId, null);
 
             return this.Redirect("/Users/Profile");
         }
@@ -90,7 +90,7 @@
                     await input.Photo.CopyToAsync(stream);
                 }
 
-                await this.photosService.AppendPhoto(fileFolderAndName, userId, (PhotoType)3);
+                await this.photosService.AppendPhoto(fileFolderAndName, userId, null, (PhotoType)3);
             }
         }
     }

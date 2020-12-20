@@ -23,7 +23,7 @@
 
 <div class="row">
     <div class="col-md-8 center">
-        <a class="btn btn-primary col-md-12" asp-controller="Pages" asp-action="CreatePage">Add Post</a>
+        <a class="btn btn-primary col-md-12" asp-controller="Pages" asp-action="AddPost" asp-route-id="@Model.Id">Add Post</a>
     </div>
 </div>
 
@@ -31,24 +31,31 @@
 
 @foreach (var post in Model.Posts)
 {
-    <div class="row">
+    <div class="row" height="50%">
         <div class="col-md-8 center">
             <div class="card-user card">
-
                 <div class="author">
                     <div class="card-body">
-                        <a href="">
-                            <img alt="..." class="avatar border-gray" src="" width="150%">
+                        <a href="@Model.CoverPhotoUrl">
+                            <img alt="..." src="@Model.CoverPhotoUrl" class="avatar border-gray" src="" width="150%">
                         </a>
                         <h5>@Model.Title</h5>
                     </div>
                 </div>
+                <div>
+                    <p>@post.Text</p>
+                </div>
                 <div class="image">
-                    <a href="@Model.CoverPhotoUrl">
-                        <img alt="..." src="@Model.CoverPhotoUrl" width="100%" height="80%">
+                    <a href="">
+                        @if (post.Photo != null)
+                        {
+                            <img alt="..." src="@post.Photo.PictureUrl" width="100%" height="80%">
+                        }
                     </a>
                 </div>
             </div>
         </div>
     </div>
+
+    <hr />
 }
