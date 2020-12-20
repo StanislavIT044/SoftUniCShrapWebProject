@@ -75,7 +75,7 @@
             string fileFolderAndName = $"/Photos/{photoGuid}.jpg";
 
             await this.postsService.CreatePost(fileFolderAndName, input.Text, null, id);
-            await this.AppendPhoto(input, userId, fileFolderAndName, doesThePostContainPhoto);
+            await this.AppendPhoto(input, id, fileFolderAndName, doesThePostContainPhoto);
 
             return this.Redirect($"/Pages/Page/{id}");
         }
@@ -115,7 +115,7 @@
             await this.pagesService.CreatePage(input.Title, userId);
             await this.AddCoverPhoto(input);
 
-            return this.Redirect("/");
+            return this.Redirect("/Pages/PagesMenu");
         }
 
         private async Task AddCoverPhoto(CreatePageInputModel input)

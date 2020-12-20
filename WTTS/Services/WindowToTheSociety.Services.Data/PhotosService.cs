@@ -57,7 +57,8 @@
 
             if (pageId != null)
             {
-                Page page = this.pageRepository.All().FirstOrDefault(x => x.Id == pageId);// TODO: repair page is null
+                List<Page> pages = this.pageRepository.All().Where(x => x.Id == pageId).ToList();
+                Page page = this.pageRepository.All().Where(x => x.Id == pageId).FirstOrDefault(); // TODO: repair page is null
                 List<Post> posts = this.postRepository.All().Where(x => x.PageId == pageId).ToList();
                 posts.FirstOrDefault(x => x.CreatedOn.ToString("f") == DateTime.UtcNow.ToString("f")).PhotoId = photo.Id;
                 page.Posts = posts;

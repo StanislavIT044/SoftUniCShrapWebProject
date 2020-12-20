@@ -105,6 +105,12 @@
             if (posts != null)
             {
                 pageViewModel.Posts = posts;
+
+                foreach (var post in pageViewModel.Posts)
+                {
+                    Photo p = this.photosRepository.All().FirstOrDefault(x => x.Id == post.PhotoId);
+                    post.Photo = p;
+                }
             }
 
             if (photo != null)
