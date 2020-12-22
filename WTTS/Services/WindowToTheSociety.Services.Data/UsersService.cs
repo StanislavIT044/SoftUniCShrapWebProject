@@ -33,6 +33,7 @@
                 Surname = user.Surname,
                 BirthDate = user.BirthDate,
                 Gender = user.Gender,
+                Photos = photos,
             };
 
             if (posts != null)

@@ -2,18 +2,15 @@
 {
     using System.Diagnostics;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using WindowToTheSociety.Web.ViewModels;
 
     public class HomeController : BaseController
     {
+        [Authorize]
         public IActionResult Index()
-        {
-            return this.View();
-        }
-
-        public IActionResult AllUsers()
         {
             return this.View();
         }

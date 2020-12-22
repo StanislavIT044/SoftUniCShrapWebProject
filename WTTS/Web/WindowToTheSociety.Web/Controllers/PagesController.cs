@@ -4,6 +4,7 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@
             this.postsService = postsService;
         }
 
+        [Authorize]
         public IActionResult AddPost()
         {
             return this.View();
@@ -80,6 +82,7 @@
             return this.Redirect($"/Pages/Page/{id}");
         }
 
+        [Authorize]
         public IActionResult PagesMenu()
         {
             string userId = this.userManager.GetUserId(this.User);
@@ -88,6 +91,7 @@
             return this.View(pages);
         }
 
+        [Authorize]
         public IActionResult Page(string id)
         {
             PageViewModel page = this.pagesService.GetPageViewModel(id);
@@ -95,6 +99,7 @@
             return this.View(page);
         }
 
+        [Authorize]
         public IActionResult CreatePage()
         {
             return this.View();

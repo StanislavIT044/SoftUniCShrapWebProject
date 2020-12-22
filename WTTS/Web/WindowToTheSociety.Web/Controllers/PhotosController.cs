@@ -14,14 +14,12 @@
 
     public class PhotosController : Controller
     {
-        private readonly IUsersSurvice usersSurvice;
         private readonly IPhotosService photosService;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public PhotosController(IUsersSurvice usersSurvice, IPhotosService photosService, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
+        public PhotosController(IPhotosService photosService, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
-            this.usersSurvice = usersSurvice;
             this.userManager = userManager;
             this.webHostEnvironment = webHostEnvironment;
             this.photosService = photosService;
@@ -53,7 +51,7 @@
             }
 
             string userId = this.userManager.GetUserId(this.User);
-            string fileFolderAndName = $"/{input.Type}s" + $"/{userId}.jpg";
+            string fileFolderAndName = $"/{input.Type}s" + $"/{userId}{DateTime.UtcNow.Millisecond}.jpg";
             string filePath = this.webHostEnvironment.WebRootPath + fileFolderAndName;
 
             using (FileStream stream = new FileStream(filePath, FileMode.Create))

@@ -21,6 +21,12 @@
         }
 
         [Authorize]
+        public IActionResult AllUsers()
+        {
+            return this.View();
+        }
+
+        [Authorize]
         public IActionResult Profile()
         {
             string userId = this.userManager.GetUserId(this.User);
