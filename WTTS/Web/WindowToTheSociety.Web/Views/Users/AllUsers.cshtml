@@ -1,1 +1,27 @@
-﻿<p>asdasd</p>
+﻿@model WindowToTheSociety.Web.ViewModels.Users.ListAllUsersViewModel
+@{
+    this.ViewData["Title"] = "All Users";
+}
+
+<div class="row col-md-12">
+    @foreach (var user in Model.AllUsers)
+    {
+        <div class="card-user card col-md-4 form-group">
+            <div class=" col-sm card-body">
+                <div class="author">
+                    <div>
+                        <img alt="..." class="avatar border-gray" src="@user.ProfilePictureUrl">
+                        <h5 class="title">@user.FirstName @user.Surname</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="button-container">
+                    <div class="col-md-12 float-left">
+                        <a class="col-md-6 text-center btn-round btn btn-primary float-none" asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id">Go to Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

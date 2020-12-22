@@ -21,6 +21,38 @@
             this.postRepository = postRepository;
         }
 
+        public ListAllUsersViewModel GetAllUsersViewModel(string userId)
+        {
+            List<ApplicationUser> users = this.usersRepository.All().Where(x => x.Id != userId).ToList();
+            ListAllUsersViewModel viewModel = new ListAllUsersViewModel();
+            viewModel.AllUsers = new List<AllUsersViewModel>();
+
+            foreach (var user in users)
+            {
+                List<Photo> photos = this.photosRepository.All().Where(x => x.ApplicationUserId == user.Id).ToList();
+                AllUsersViewModel userViewModel = new AllUsersViewModel
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    Surname = user.Surname,
+                };
+
+                if (photos.Count() != 0)
+                {
+                    if (photos.Contains(photos.FirstOrDefault(x => (int)x.PhotoType == 1)))
+                    {
+                        userViewModel.ProfilePictureUrl = photos.FirstOrDefault(x => x.PhotoType == (PhotoType)1).PictureUrl;
+                    }
+
+                    userViewModel.Photos = photos;
+                }
+
+                viewModel.AllUsers.Add(userViewModel);
+            }
+
+            return viewModel;
+        }
+
         public UsersProfileViewModel GetProfileViewModelById(string userId)
         {
             ApplicationUser user = this.usersRepository.All().FirstOrDefault(x => x.Id == userId);

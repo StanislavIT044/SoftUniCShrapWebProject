@@ -23,14 +23,22 @@
         [Authorize]
         public IActionResult AllUsers()
         {
-            return this.View();
+            string userId = this.userManager.GetUserId(this.User);
+            ListAllUsersViewModel viewModel = this.usersSurvice.GetAllUsersViewModel(userId);
+
+            return this.View(viewModel);
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public IActionResult Profile(string id)
         {
-            string userId = this.userManager.GetUserId(this.User);
-            UsersProfileViewModel viewModel = this.usersSurvice.GetProfileViewModelById(userId);
+            if (id == null)
+            {
+                // string userId = this.userManager.GetUserId(this.User);
+                id = this.userManager.GetUserId(this.User);
+            }
+
+            UsersProfileViewModel viewModel = this.usersSurvice.GetProfileViewModelById(id);
 
             return this.View(viewModel);
         }
