@@ -12,9 +12,10 @@
         <a class="col-md-6 text-center btn btn-success" asp-controller="Users" asp-action="AllUsers">All Users</a>
     </div>
 
-    <form action="/" method="post">
+    <form asp-controller="Home" asp-action="Search" method="post">
         <div class="col-md-6 float-right">
-            <input type="text" class="form-control col-md-12 " placeholder="Search..">
+            <input type="text" id="searchStr" name="searchStr" class="form-control col-md-12" placeholder="Search..">
+            <label for="searchStr"></label>
             <button type="submit" class="col-md-12 text-center btn btn-success">Search</button>
         </div>
     </form>

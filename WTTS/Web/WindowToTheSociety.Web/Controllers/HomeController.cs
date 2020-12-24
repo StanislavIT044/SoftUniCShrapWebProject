@@ -6,12 +6,32 @@
     using Microsoft.AspNetCore.Mvc;
 
     using WindowToTheSociety.Web.ViewModels;
+    using WindowToTheSociety.Web.ViewModels.Search;
 
     public class HomeController : BaseController
     {
+        public HomeController()
+        {
+            // TODO: searchService
+        }
+
         [Authorize]
         public IActionResult Index()
         {
+            return this.View();
+        }
+
+        [Authorize]
+        public IActionResult Search()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Search(string searchStr)
+        {
+            //SearchViewModel viewModel = this.
             return this.View();
         }
 
