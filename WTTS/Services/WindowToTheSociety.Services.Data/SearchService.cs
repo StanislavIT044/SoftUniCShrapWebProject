@@ -6,7 +6,9 @@
 
     using WindowToTheSociety.Data.Common.Repositories;
     using WindowToTheSociety.Data.Models;
+    using WindowToTheSociety.Web.ViewModels.Pages;
     using WindowToTheSociety.Web.ViewModels.Search;
+    using WindowToTheSociety.Web.ViewModels.Users;
 
     public class SearchService : ISearchService
     {
@@ -28,28 +30,81 @@
         {
             SearchViewModel viewModel = new SearchViewModel();
 
+            if (searchStr == null)
+            {
+                viewModel.Users = new List<AllUsersViewModel>();
+                viewModel.Pages = new List<SelectPageViewModel>();
+                return viewModel;
+            }
+
             string[] tokens = searchStr.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             viewModel.Users = this.GetUsers(tokens);
-            viewModel.Pages = new List<Page>();
+            viewModel.Pages = this.GetPages(tokens);
 
             return viewModel;
         }
 
-        private ICollection<ApplicationUser> GetUsers(string[] tokens)
+        private ICollection<AllUsersViewModel> GetUsers(string[] tokens)
         {
-            ICollection<ApplicationUser> users = this.usersRepository.All().ToList();
-
-            foreach (var token in tokens)
+            List<AllUsersViewModel> users = this.usersRepository.All().Select(x => new AllUsersViewModel
             {
-                users.Where(x => x.FirstName.Contains(token) || x.Surname.Contains(token));
+                Id = x.Id,
+                FirstName = x.FirstName,
+                Surname = x.Surname,
+            }).ToList();
+            List<AllUsersViewModel> matchedUsers = new List<AllUsersViewModel>();
+
+            foreach (var user in users)
+            {
+                foreach (var token in tokens)
+                {
+                    if (user.FirstName.Contains(token) || user.Surname.Contains(token))
+                    {
+                        if (!matchedUsers.Contains(user))
+                        {
+                            if (this.photosRepository.All().Contains(this.photosRepository.All().FirstOrDefault(x => x.PhotoType == (PhotoType)1 && x.ApplicationUserId == user.Id)))
+                            {
+                                user.ProfilePictureUrl = this.photosRepository.All().FirstOrDefault(x => x.PhotoType == (PhotoType)1 && x.ApplicationUserId == user.Id).PictureUrl;
+                            }
+
+                            matchedUsers.Add(user);
+                        }
+                    }
+                }
             }
 
-            return users;
+            return matchedUsers;
         }
 
-        private ICollection<Page> GetPages(string searchStr)
+        private ICollection<SelectPageViewModel> GetPages(string[] tokens)
         {
-            return null;
+            List<SelectPageViewModel> pages = this.pagesRepository.All().Select(x => new SelectPageViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+            }).ToList();
+            List<SelectPageViewModel> matchedPages = new List<SelectPageViewModel>();
+
+            foreach (var page in pages)
+            {
+                foreach (var token in tokens)
+                {
+                    if (page.Title.Contains(token))
+                    {
+                        if (!matchedPages.Contains(page))
+                        {
+                            if (this.photosRepository.All().Contains(this.photosRepository.All().FirstOrDefault(x => x.PhotoType == (PhotoType)2 && x.PageId == page.Id)))
+                            {
+                                page.CoverPhotoUrl = this.photosRepository.All().FirstOrDefault(x => x.PhotoType == (PhotoType)2 && x.PageId == page.Id).PictureUrl;
+                            }
+
+                            matchedPages.Add(page);
+                        }
+                    }
+                }
+            }
+
+            return matchedPages;
         }
     }
 }

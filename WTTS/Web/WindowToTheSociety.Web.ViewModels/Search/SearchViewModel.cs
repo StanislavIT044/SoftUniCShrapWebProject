@@ -2,12 +2,13 @@
 {
     using System.Collections.Generic;
 
-    using WindowToTheSociety.Data.Models;
+    using WindowToTheSociety.Web.ViewModels.Pages;
+    using WindowToTheSociety.Web.ViewModels.Users;
 
     public class SearchViewModel
     {
-        public ICollection<ApplicationUser> Users { get; set; }
+        public ICollection<AllUsersViewModel> Users { get; set; }
 
-        public ICollection<Page> Pages { get; set; }
+        public ICollection<SelectPageViewModel> Pages { get; set; }
     }
 }

@@ -4,15 +4,17 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-
+    using WindowToTheSociety.Services.Data;
     using WindowToTheSociety.Web.ViewModels;
     using WindowToTheSociety.Web.ViewModels.Search;
 
     public class HomeController : BaseController
     {
-        public HomeController()
+        private readonly ISearchService searchService;
+
+        public HomeController(ISearchService searchService)
         {
-            // TODO: searchService
+            this.searchService = searchService;
         }
 
         [Authorize]
@@ -31,8 +33,9 @@
         [Authorize]
         public IActionResult Search(string searchStr)
         {
-            //SearchViewModel viewModel = this.
-            return this.View();
+            SearchViewModel viewModel = this.searchService.Search(searchStr);
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

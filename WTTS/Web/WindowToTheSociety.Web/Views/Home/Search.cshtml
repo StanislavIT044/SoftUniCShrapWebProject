@@ -1,8 +1,60 @@
 ﻿@using WindowToTheSociety.Common
+@model WindowToTheSociety.Web.ViewModels.Search.SearchViewModel
 @{
     this.ViewData["Title"] = "Search";
 }
 
 <div class="text-center">
     <h1 class="display-4 text-dark">@GlobalConstants.SystemName</h1>
+</div>
+
+<div class="text-center row">
+    <div class="col-md-6">
+        <h1 class="text-left">Users:</h1>
+        <div class="row">
+            @if (Model.Users == null || Model.Users.Count == 0)
+            {
+                <h4 class="">No matches.</h4>
+            }
+            else
+            {
+                @foreach (var user in this.Model.Users)
+                {
+                    <div class="card-body col-md-8">
+                        <img src="@user.ProfilePictureUrl" width="80%" class="">
+                        <div class="card-body">
+                            <h5 class="card-title">@user.FirstName @user.Surname</h5>
+                            <h5 class="mt-0">
+                                <a asp-action="" asp-route-id="">Go to @user.FirstName</a>
+                            </h5>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h1 class="text-left">Pages:</h1>
+        <div class="row">
+            @if (Model.Pages == null || Model.Pages.Count == 0)
+            {
+                <h4>No matches.</h4>
+            }
+            else
+            {
+                @foreach (var p in Model.Pages)
+                {
+                    <div class="card-body col-md-8">
+                        <img src="@p.CoverPhotoUrl" width="80%" class="">
+                        <div class="card-body">
+                            <h5 class="card-title">@p.Title</h5>
+                            <h5 class="mt-0">
+                                <a asp-action="" asp-route-id="">Go to @p.Title</a>
+                            </h5>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
 </div>
