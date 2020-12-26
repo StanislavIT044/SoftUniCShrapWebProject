@@ -18,7 +18,9 @@
             <div class="card-footer">
                 <div class="button-container">
                     <div class="col-md-12 float-left">
-                        <a class="col-md-6 text-center btn-round btn btn-primary float-none" asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id">Go to Profile</a>
+                        <a class="row-md-4 text-center btn-round btn btn-primary float-left" asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id">Go to Profile</a>
+                        <a class="row-md-4 text-center btn-round btn btn-primary float-right" asp-controller="Follow" asp-action="Follow" asp-route-id="@user.Id">Follow</a>
+                        <a class="row-md-4 text-center btn-round btn btn-danger float-right" asp-controller="Follow" asp-action="Unfollow" asp-route-id="@user.Id">Unfollow</a>
                     </div>
                 </div>
             </div>

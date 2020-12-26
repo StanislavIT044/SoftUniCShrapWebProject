@@ -67,6 +67,7 @@
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IPagesService, PagesService>();
             services.AddTransient<ISearchService, SearchService>();
+            services.AddTransient<IFollowService, FollowService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
