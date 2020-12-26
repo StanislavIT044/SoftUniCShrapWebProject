@@ -10,7 +10,7 @@ using WindowToTheSociety.Data;
 namespace WindowToTheSociety.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201219221505_InitialCreate")]
+    [Migration("20201226213849_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -259,6 +259,28 @@ namespace WindowToTheSociety.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("WindowToTheSociety.Data.Models.Following", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FollowedUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Following");
                 });
 
             modelBuilder.Entity("WindowToTheSociety.Data.Models.Page", b =>

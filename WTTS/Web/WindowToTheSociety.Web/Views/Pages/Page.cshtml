@@ -37,7 +37,14 @@
                 <div class="author">
                     <div class="card-body">
                         <a href="@Model.CoverPhotoUrl">
-                            <img alt="..." src="@Model.CoverPhotoUrl" class="avatar border-gray" src="" width="150%">
+                            @if (@Model.CoverPhotoUrl != null)
+                            {
+                                <img alt="..." src="@Model.CoverPhotoUrl" class="avatar border-gray" width="150%">
+                            }
+                            else
+                            {
+                                <img alt="..." href="/wwwroot/facebook-cover-template.jpg" class="avatar border-gray" width="150%">
+                            }
                         </a>
                         <h5>@Model.Title</h5>
                     </div>
