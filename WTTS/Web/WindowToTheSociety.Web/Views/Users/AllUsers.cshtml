@@ -10,7 +10,18 @@
             <div class=" col-sm card-body">
                 <div class="author">
                     <div>
-                        <img alt="..." class="avatar border-gray" src="@user.ProfilePictureUrl">
+                        @if (user.ProfilePictureUrl != null)
+                        {
+                            <a href="@user.ProfilePictureUrl">
+                                <img alt="..." src="@user.ProfilePictureUrl" class="avatar border-gray" src="" width="150%">
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="~/profile.jpg">
+                                <img alt="..." src="~/profile.jpg" class="avatar border-gray" src="" width="150%">
+                            </a>
+                        }
                         <h5 class="title">@user.FirstName @user.Surname</h5>
                     </div>
                 </div>

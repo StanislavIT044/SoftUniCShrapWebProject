@@ -21,11 +21,23 @@
                 @foreach (var user in this.Model.Users)
                 {
                     <div class="card-body col-md-8">
-                        <img src="@user.ProfilePictureUrl" width="80%" class="">
+                        @if (@user.ProfilePictureUrl != null)
+                        {
+                            <img src="@user.ProfilePictureUrl" width="80%" class="">
+                        }
+                        else
+                        {
+                            <img src="~/profile.jpg" width="80%" class="">
+                        }
                         <div class="card-body">
                             <h5 class="card-title">@user.FirstName @user.Surname</h5>
                             <h5 class="mt-0">
                                 <a asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id">Go to @user.FirstName</a>
+                                <hr />
+                                <div>
+                                    <a class="row-md-4 text-center btn-round btn btn-primary float-left" asp-controller="Follow" asp-action="Follow" asp-route-id="@user.Id">Follow</a>
+                                    <a class="row-md-4 text-center btn-round btn btn-danger float-right" asp-controller="Follow" asp-action="Unfollow" asp-route-id="@user.Id">Unfollow</a>
+                                </div>
                             </h5>
                         </div>
                     </div>
@@ -45,7 +57,14 @@
                 @foreach (var p in Model.Pages)
                 {
                     <div class="card-body col-md-8">
-                        <img src="@p.CoverPhotoUrl" width="80%" class="">
+                        @if (p.CoverPhotoUrl != null)
+                        {
+                            <img src="@p.CoverPhotoUrl" width="80%" class="">
+                        }
+                        else
+                        {
+                            <img src="~/facebook-cover-template.jpg" width="80%" class="">
+                        }
                         <div class="card-body">
                             <h5 class="card-title">@p.Title</h5>
                             <h5 class="mt-0">

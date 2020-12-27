@@ -5,9 +5,28 @@
 
 
 <div class="align-content-sm-center center card">
-    <img class="img-center container" src="@Model.CoverPhtotoUrl" height="575px" width="100%">
+    @if (@Model.CoverPhtotoUrl != null)
+    {
+        <img class="img-center container" src="@Model.CoverPhtotoUrl" height="575px" width="100%">
+    }
+    else
+    {
+        <a href="~/facebook-cover-template.jpg">
+            <img class="img-center container" src="~/facebook-cover-template.jpg" height="575px" width="100%">
+        </a>
+    }
     <hr />
-    <img class="img-center" src="@Model.ProfilePictureUrl" height="280px" width="37%">
+
+    @if (@Model.ProfilePictureUrl != null)
+    {
+        <img class="img-center" src="@Model.ProfilePictureUrl" height="280px" width="37%">
+    }
+    else
+    {
+        <a href="~/profile.jpg">
+            <img alt="..." src="~/profile.jpg" class="img-center" height="280px" width="37%">
+        </a>
+    }
 
     <h1 class="text-center">@Model.FirstName @Model.Surname </h1>
 </div>
@@ -31,9 +50,18 @@
             <div class="card-user card">
                 <div class="author">
                     <div class="card-body">
+                        @if (@Model.ProfilePictureUrl != null)
+                        {
                         <a href="@Model.ProfilePictureUrl">
                             <img alt="..." src="@Model.ProfilePictureUrl" class="avatar border-gray" src="" width="150%">
                         </a>
+                        }
+                        else
+                        {
+                            <a href="~/profile.jpg">
+                                <img alt="..." src="~/profile.jpg" class="avatar border-gray" height="280px" width="37%">
+                            </a>
+                        }
                         <h5>@Model.FirstName @Model.Surname</h5>
                     </div>
                 </div>

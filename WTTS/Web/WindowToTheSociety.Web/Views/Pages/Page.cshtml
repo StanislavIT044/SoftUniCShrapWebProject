@@ -8,9 +8,16 @@
     <div class="col-md-8 center">
         <div class="card-user card">
             <div class="image">
-                <a href="@Model.CoverPhotoUrl">
-                    <img alt="..." src="@Model.CoverPhotoUrl" width="100%" height="80%">
-                </a>
+                @if (Model.CoverPhotoUrl != null)
+                {
+                    <a href="@Model.CoverPhotoUrl">
+                        <img alt="..." src="@Model.CoverPhotoUrl" width="100%" height="80%">
+                    </a>
+                }
+                else
+                {
+                    <img src="~/facebook-cover-template.jpg" width="80%" class="">
+                }
             </div>
             <div class="author">
                 <h5>@Model.Title</h5>
