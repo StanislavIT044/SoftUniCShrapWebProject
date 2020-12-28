@@ -19,6 +19,7 @@
     using WindowToTheSociety.Services.Data;
     using WindowToTheSociety.Services.Mapping;
     using WindowToTheSociety.Services.Messaging;
+    using WindowToTheSociety.Web.Hubs;
     using WindowToTheSociety.Web.ViewModels;
 
     public class Startup
@@ -45,6 +46,8 @@
                         options.CheckConsentNeeded = context => true;
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
+
+            services.AddSignalR();
 
             services.AddControllersWithViews(
                 options =>
@@ -106,6 +109,7 @@
             app.UseEndpoints(
                 endpoints =>
                     {
+                        endpoints.MapHub<ChatHub>("/chat");
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();

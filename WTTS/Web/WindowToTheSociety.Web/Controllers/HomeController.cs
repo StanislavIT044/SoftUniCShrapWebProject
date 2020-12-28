@@ -37,6 +37,12 @@
         }
 
         [Authorize]
+        public IActionResult Chat()
+        {
+            return this.View();
+        }
+
+        [Authorize]
         public IActionResult Search()
         {
             return this.View();
