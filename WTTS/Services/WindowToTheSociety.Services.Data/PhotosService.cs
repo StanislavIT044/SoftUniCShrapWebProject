@@ -16,6 +16,11 @@
         private readonly IRepository<Post> postRepository;
         private readonly IRepository<Photo> photosRepository;
 
+        public PhotosService()
+        {
+
+        }
+
         public PhotosService(IRepository<ApplicationUser> usersRepository, IRepository<Photo> photosRepository, IUsersSurvice usersSurvice, IRepository<Page> pageRepository, IRepository<Post> postRepository)
         {
             this.usersRepository = usersRepository;
